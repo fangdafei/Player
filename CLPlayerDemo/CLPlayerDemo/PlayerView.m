@@ -12,7 +12,7 @@
 #import "UIView+SetRect.h"
 #import "UIImage+TintColor.h"
 #import "UIImage+ScaleToSize.h"
-
+#import "BackView.h"
 #define Padding   15
 
 @interface PlayerView ()
@@ -32,7 +32,7 @@
 /**播放时间*/
 @property(nonatomic,strong)UILabel *currentTimeLabel;
 /**表面View*/
-@property(nonatomic,strong)UIView *backView;
+@property(nonatomic,strong)BackView *backView;
 /**转子*/
 @property(nonatomic,strong)UIActivityIndicatorView *activity;
 /**缓冲进度条*/
@@ -88,15 +88,15 @@
     }
     
     _playerLayer.videoGravity = AVLayerVideoGravityResize;
-
     [self.layer addSublayer:_playerLayer];
+
     
     //播放
     [self continuePlay];
     //AVPlayer播放完成通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
     //面上的View
-    self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, _playerLayer.frame.origin.y, _playerLayer.frame.size.width, _playerLayer.frame.size.height)];
+    self.backView = [[BackView alloc]initWithFrame:CGRectMake(0, _playerLayer.frame.origin.y, _playerLayer.frame.size.width, _playerLayer.frame.size.height)];
     [self addSubview:_backView];
     _backView.backgroundColor = [UIColor clearColor];
     //顶部View条
@@ -439,6 +439,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
 }
 
-
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+//    UIView *view = [super hitTest:point withEvent:event];
+//    if (view == nil) {
+//        for (UIView *subView in self.subviews) {
+//            CGPoint tp = [subView convertPoint:point fromView:self];
+//            if (CGRectContainsPoint(subView.bounds, tp)) {
+//                view = subView;
+//            }
+//        }
+//    }
+//    return view;
+//}
 
 @end

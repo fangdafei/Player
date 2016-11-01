@@ -18,12 +18,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    PlayerView *view = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-    view.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/1026/58101f312c4e6_wpd.mp4"];
-    [view backButton:^(UIButton *button) {
+   
+    
+    PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/1026/58101f312c4e6_wpd.mp4"];
+    [playerView backButton:^(UIButton *button) {
         
     }];
-    [self.view addSubview:view];
+    [self.view addSubview:playerView];
     
     
     
