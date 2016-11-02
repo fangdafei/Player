@@ -20,6 +20,7 @@
 		5B1FC5031DC852180036C489 /* UIImage+TintColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5001DC852180036C489 /* UIImage+TintColor.m */; };
 		5B1FC5041DC852180036C489 /* UIView+SetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5021DC852180036C489 /* UIView+SetRect.m */; };
 		5B1FC5071DC86A400036C489 /* UIImage+ScaleToSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5061DC86A400036C489 /* UIImage+ScaleToSize.m */; };
+		5B563C2B1DC9C25600290671 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B563C2A1DC9C25600290671 /* Slider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,8 @@
 		5B1FC5021DC852180036C489 /* UIView+SetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SetRect.m"; sourceTree = "<group>"; };
 		5B1FC5051DC86A400036C489 /* UIImage+ScaleToSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ScaleToSize.h"; sourceTree = "<group>"; };
 		5B1FC5061DC86A400036C489 /* UIImage+ScaleToSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ScaleToSize.m"; sourceTree = "<group>"; };
+		5B563C291DC9C25600290671 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		5B563C2A1DC9C25600290671 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +173,8 @@
 			children = (
 				5B1FC4FC1DC8515F0036C489 /* PlayerView.h */,
 				5B1FC4FD1DC8515F0036C489 /* PlayerView.m */,
+				5B563C291DC9C25600290671 /* Slider.h */,
+				5B563C2A1DC9C25600290671 /* Slider.m */,
 				5B1FC4FF1DC852180036C489 /* UIImage+TintColor.h */,
 				5B1FC5001DC852180036C489 /* UIImage+TintColor.m */,
 				5B1FC5051DC86A400036C489 /* UIImage+ScaleToSize.h */,
@@ -322,6 +327,7 @@
 				5B1FC4CB1DC850820036C489 /* AppDelegate.m in Sources */,
 				5B1FC4C81DC850820036C489 /* main.m in Sources */,
 				5B1FC4FE1DC8515F0036C489 /* PlayerView.m in Sources */,
+				5B563C2B1DC9C25600290671 /* Slider.m in Sources */,
 				5B1FC5031DC852180036C489 /* UIImage+TintColor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

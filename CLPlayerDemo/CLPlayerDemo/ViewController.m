@@ -21,14 +21,14 @@
 //    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(99, 99, 300, 300)];
 //    [self.view addSubview:view1];
     
-    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 99, ScreenWidth, 300)];
     [self.view addSubview:view2];
     
     
-    PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
     [view2 addSubview:playerView];
     //视频地址
-    playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/1026/58101f312c4e6_wpd.mp4"];
+    playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/0215/56c1809735217_wpd.mp4"];
     //播放
     [playerView playVideo];
     //返回按钮点击事件回调

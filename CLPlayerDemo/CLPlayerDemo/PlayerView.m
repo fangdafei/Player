@@ -12,9 +12,12 @@
 #import "UIView+SetRect.h"
 #import "UIImage+TintColor.h"
 #import "UIImage+ScaleToSize.h"
+#import "Slider.h"
 
-
-#define Padding   15
+#define Padding        10
+#define DisappearTime  4
+#define ViewHeight     40
+#define ButtonSize     20
 
 @interface PlayerView ()
 
@@ -32,7 +35,7 @@
 /**播放器item*/
 @property(nonatomic,strong)AVPlayerItem *playerItem;
 /**播放进度条*/
-@property(nonatomic,strong)UISlider *slider;
+@property(nonatomic,strong)Slider *slider;
 /**播放时间*/
 @property(nonatomic,strong)UILabel *currentTimeLabel;
 /**表面View*/
@@ -104,12 +107,12 @@
     [self addSubview:_backView];
     
     //顶部View条
-    self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 60)];
+    self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, ViewHeight)];
     _topView.backgroundColor = [UIColor blackColor];
     _topView.alpha = 0.5;
     [_backView addSubview:_topView];
     //底部View条
-    self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, _backView.height - 60, self.frame.size.width, 60)];
+    self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, _backView.height - ViewHeight, self.frame.size.width, ViewHeight)];
     _bottomView.backgroundColor = [UIColor blackColor];
     _bottomView.alpha = 0.5;
     [_backView addSubview:_bottomView];
@@ -130,10 +133,11 @@
     [self addSubview:_activity];
     [_activity startAnimating];
     
-    //计时器
-    [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(Stack) userInfo:nil repeats:YES];
+
+    //计时器，循环执行
+    [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(Stack) userInfo:nil repeats:YES];
     //工具条定时消失
-    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(disappear) userInfo:nil repeats:NO];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:DisappearTime target:self selector:@selector(disappear) userInfo:nil repeats:NO];
 }
 #pragma mark - 状态栏
 - (BOOL)prefersStatusBarHidden
@@ -144,16 +148,16 @@
 #pragma mark - 创建UISlider
 - (void)createSlider
 {
-    self.slider = [[UISlider alloc]initWithFrame:CGRectMake(_progress.left - Padding/2.0, _progress.top, _progress.width + Padding, Padding)];
-    _slider.centerY = _progress.centerY;
+    self.slider = [[Slider alloc]initWithFrame:CGRectMake(_progress.left - Padding/2.0, _progress.top, _progress.width + Padding, Padding)];
+    _slider.centerY = _bottomView.height/2.0;
     [_bottomView addSubview:_slider];
     //自定义滑块大小
     
     UIImage *image = [UIImage imageNamed:@"iconfont-yuan"];
     //改变滑块大小
-    UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake(Padding, Padding)];
+    UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake(2 * Padding, 2 * Padding)];
     //改变滑块颜色
-    UIImage *newImage = [tempImage imageWithTintColor:[UIColor orangeColor]];
+    UIImage *newImage = [tempImage imageWithTintColor:[UIColor redColor]];
     [_slider setThumbImage:newImage forState:UIControlStateNormal];
 
     [_slider addTarget:self action:@selector(progressSlider:) forControlEvents:UIControlEventValueChanged];
@@ -164,13 +168,13 @@
     
 }
 
-#pragma mark - slider滑动事件
+#pragma mark - 拖动进度条
 - (void)progressSlider:(UISlider *)slider
 {
     //拖动改变视频播放进度
     if (_player.status == AVPlayerStatusReadyToPlay) {
         
-        //    //计算出拖动的当前秒数
+        //计算出拖动的当前秒数
         CGFloat total = (CGFloat)_playerItem.duration.value / _playerItem.duration.timescale;
         
         NSInteger dragedSeconds = floorf(total * slider.value);
@@ -191,10 +195,10 @@
 - (void)createProgress
 {
     self.progress = [[UIProgressView alloc]initWithFrame:CGRectMake(_startButton.right + Padding, 0, self.frame.size.width - 80 - Padding - _startButton.right - Padding - Padding, Padding)];
-    self.progress.centerY = _startButton.centerY;
+    self.progress.centerY = _bottomView.height/2.0;
     
     //进度条颜色
-    self.progress.trackTintColor = [UIColor redColor];;
+    self.progress.trackTintColor = [UIColor whiteColor];;
     
     NSTimeInterval timeInterval = [self availableDuration];// 计算缓冲进度
     CMTime duration = self.playerItem.duration;
@@ -273,6 +277,7 @@
         NSInteger durMin = (NSInteger)_playerItem.duration.value / _playerItem.duration.timescale / 60;//总秒
         NSInteger durSec = (NSInteger)_playerItem.duration.value / _playerItem.duration.timescale % 60;//总分钟
         self.currentTimeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld / %02ld:%02ld", proMin, proSec, durMin, durSec];
+        
     }
     //开始播放停止转子
     if (_player.status == AVPlayerStatusReadyToPlay)
@@ -281,16 +286,15 @@
     } else {
         [_activity startAnimating];
     }
-    
 }
 #pragma mark - 播放按钮
 - (void)createButton
 {
     _startButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _startButton.frame = CGRectMake(Padding, 0, 30, 30);
+    _startButton.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
     _startButton.centerY = _bottomView.height/2.0;
     [_bottomView addSubview:_startButton];
-    
+    _startButton.tintColor = [UIColor whiteColor];
     if (_player.rate == 1.0)
     {
         [_startButton setBackgroundImage:[UIImage imageNamed:@"pauseBtn"] forState:UIControlStateNormal];
@@ -319,7 +323,7 @@
 - (void)createBackButton
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(Padding, 0, 30, 30);
+    button.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
     button.centerY = _topView.centerY;
     [button setBackgroundImage:[UIImage imageNamed:@"iconfont-back"] forState:UIControlStateNormal];
     [_topView addSubview:button];
@@ -329,7 +333,7 @@
 - (void)createMaxButton
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 30, 30);
+    button.frame = CGRectMake(0, 0, ButtonSize, ButtonSize);
     button.right = _topView.right - Padding;
     button.centerY = _topView.centerY;
     button.tintColor = [UIColor whiteColor];
@@ -348,6 +352,9 @@
 #pragma mark - 横屏代码
 - (void)maxAction:(UIButton *)button
 {
+    //取消定时消失
+    [_timer invalidate];
+    
     if (ScreenWidth < ScreenHeight)
     {
         //记录父类的父类和父类的位置大小
@@ -396,19 +403,18 @@
 {
     if (_backView.alpha == 1)
     {
+        //取消定时消失
+        [_timer invalidate];
         [UIView animateWithDuration:0.5 animations:^{
             _backView.alpha = 0;
         }];
-        //取消定时消失
-        [_timer invalidate];
-        
     } else if (_backView.alpha == 0)
     {
+        //添加定时消失
+        _timer = [NSTimer scheduledTimerWithTimeInterval:DisappearTime target:self selector:@selector(disappear) userInfo:nil repeats:NO];
         [UIView animateWithDuration:0.5 animations:^{
             _backView.alpha = 1;
         }];
-        //添加定时消失
-        _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(disappear) userInfo:nil repeats:NO];
     }
 }
 #pragma mark - 定时消失
