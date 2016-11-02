@@ -125,13 +125,19 @@
     [_backView addSubview:_bottomView];
     // 监听loadedTimeRanges属性
     [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-    
+    //创建播放按钮
     [self createButton];
+    //创建进度条
     [self createProgress];
+    //创建播放条
     [self createSlider];
+    //创建时间Label
     [self createCurrentTimeLabel];
+    //创建返回按钮
     [self createBackButton];
+    //创建全屏按钮
     [self createMaxButton];
+    //创建点击手势
     [self createGesture];
     
     //转子
@@ -142,7 +148,7 @@
     
 
     //计时器，循环执行
-    [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(Stack) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(timeStack) userInfo:nil repeats:YES];
     //工具条定时消失
     _timer = [NSTimer scheduledTimerWithTimeInterval:DisappearTime target:self selector:@selector(disappear) userInfo:nil repeats:NO];
 }
@@ -166,7 +172,7 @@
     //改变滑块颜色
     UIImage *newImage = [tempImage imageWithTintColor:PlayFinishColor];
     [_slider setThumbImage:newImage forState:UIControlStateNormal];
-
+    //添加监听
     [_slider addTarget:self action:@selector(progressSlider:) forControlEvents:UIControlEventValueChanged];
     //左边颜色
     _slider.minimumTrackTintColor = PlayFinishColor;
@@ -179,14 +185,15 @@
 - (void)progressSlider:(UISlider *)slider
 {
     //拖动改变视频播放进度
-    if (_player.status == AVPlayerStatusReadyToPlay) {
+    if (_player.status == AVPlayerStatusReadyToPlay)
+    {
         
         //计算出拖动的当前秒数
         CGFloat total = (CGFloat)_playerItem.duration.value / _playerItem.duration.timescale;
         
         NSInteger dragedSeconds = floorf(total * slider.value);
+        
         //转换成CMTime才能给player来控制播放进度
-    
         CMTime dragedCMTime = CMTimeMake(dragedSeconds, 1);
         //暂停
         [self pausePlay];
@@ -206,8 +213,8 @@
     
     //进度条颜色
     self.progress.trackTintColor = ProgressColor;
-    
-    NSTimeInterval timeInterval = [self availableDuration];// 计算缓冲进度
+    // 计算缓冲进度
+    NSTimeInterval timeInterval = [self availableDuration];
     CMTime duration = self.playerItem.duration;
     CGFloat totalDuration = CMTimeGetSeconds(duration);
     [self.progress setProgress:timeInterval / totalDuration animated:NO];
@@ -271,7 +278,7 @@
     _currentTimeLabel.text = @"00:00/00:00";
 }
 #pragma mark - 计时器事件
-- (void)Stack
+- (void)timeStack
 {
     if (_playerItem.duration.timescale != 0)
     {
@@ -290,7 +297,9 @@
     if (_player.status == AVPlayerStatusReadyToPlay)
     {
         [_activity stopAnimating];
-    } else {
+    }
+    else
+    {
         [_activity startAnimating];
     }
 }
@@ -472,6 +481,5 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
 }
-
 
 @end
