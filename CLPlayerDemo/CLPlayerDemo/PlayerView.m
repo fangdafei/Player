@@ -13,11 +13,20 @@
 #import "UIImage+TintColor.h"
 #import "UIImage+ScaleToSize.h"
 #import "Slider.h"
-
+//间隙
 #define Padding        10
-#define DisappearTime  4
+//消失时间
+#define DisappearTime  20
+//顶部底部控件高度
 #define ViewHeight     40
+//按钮大小
 #define ButtonSize     20
+//进度条颜色
+#define ProgressColor     [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:0.40000f]
+//缓冲颜色
+#define ProgressTintColor [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:0.60000f]
+//播放完成颜色
+#define PlayFinishColor   [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:1.00000f]
 
 @interface PlayerView ()
 
@@ -108,13 +117,11 @@
     
     //顶部View条
     self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, ViewHeight)];
-    _topView.backgroundColor = [UIColor blackColor];
-    _topView.alpha = 0.5;
+    _topView.backgroundColor = [UIColor colorWithRed:0.00000f green:0.00000f blue:0.00000f alpha:0.50000f];
     [_backView addSubview:_topView];
     //底部View条
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, _backView.height - ViewHeight, self.frame.size.width, ViewHeight)];
-    _bottomView.backgroundColor = [UIColor blackColor];
-    _bottomView.alpha = 0.5;
+    _bottomView.backgroundColor = [UIColor colorWithRed:0.00000f green:0.00000f blue:0.00000f alpha:0.50000f];
     [_backView addSubview:_bottomView];
     // 监听loadedTimeRanges属性
     [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
@@ -157,12 +164,12 @@
     //改变滑块大小
     UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake(2 * Padding, 2 * Padding)];
     //改变滑块颜色
-    UIImage *newImage = [tempImage imageWithTintColor:[UIColor redColor]];
+    UIImage *newImage = [tempImage imageWithTintColor:PlayFinishColor];
     [_slider setThumbImage:newImage forState:UIControlStateNormal];
 
     [_slider addTarget:self action:@selector(progressSlider:) forControlEvents:UIControlEventValueChanged];
     //左边颜色
-    _slider.minimumTrackTintColor = [UIColor redColor];
+    _slider.minimumTrackTintColor = PlayFinishColor;
     //右边颜色
     _slider.maximumTrackTintColor = [UIColor clearColor];
     
@@ -198,7 +205,7 @@
     self.progress.centerY = _bottomView.height/2.0;
     
     //进度条颜色
-    self.progress.trackTintColor = [UIColor whiteColor];;
+    self.progress.trackTintColor = ProgressColor;
     
     NSTimeInterval timeInterval = [self availableDuration];// 计算缓冲进度
     CMTime duration = self.playerItem.duration;
@@ -214,7 +221,7 @@
         if (time == total)
         {
             //缓冲进度颜色
-            self.progress.progressTintColor = [UIColor yellowColor];
+            self.progress.progressTintColor = ProgressTintColor;
         }
         else
         {
@@ -240,7 +247,7 @@
         CGFloat totalDuration = CMTimeGetSeconds(duration);
         [self.progress setProgress:timeInterval / totalDuration animated:NO];
         //设置缓存进度颜色
-        self.progress.progressTintColor = [UIColor yellowColor];
+        self.progress.progressTintColor = ProgressTintColor;
     }
 }
 //计算缓冲进度
@@ -292,6 +299,7 @@
 {
     _startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _startButton.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
+    _startButton.clipsToBounds = YES;
     _startButton.centerY = _bottomView.height/2.0;
     [_bottomView addSubview:_startButton];
     _startButton.tintColor = [UIColor whiteColor];
