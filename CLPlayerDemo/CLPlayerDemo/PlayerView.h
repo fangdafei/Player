@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^BackButtonBlock)(UIButton *button);
+typedef void(^EndBolck)();
 
 @interface PlayerView : UIView
 
@@ -19,5 +20,14 @@ typedef void(^BackButtonBlock)(UIButton *button);
 /**返回按钮回调方法*/
 - (void)backButton:(BackButtonBlock) backButton;
 
+/**播放完成回调*/
+- (void)endPlay:(EndBolck) end;
+
+
+/**播放*/
+- (void)playVideo;
+
+/**暂停*/
+- (void)pausePlay;
 
 @end

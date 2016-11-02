@@ -26,13 +26,19 @@
     
     
     PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-    playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/1026/58101f312c4e6_wpd.mp4"];
-    [playerView backButton:^(UIButton *button) {
-        
-    }];
     [view2 addSubview:playerView];
-    
-    
+    //视频地址
+    playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/1026/58101f312c4e6_wpd.mp4"];
+    //播放
+    [playerView playVideo];
+    //返回按钮点击事件回调
+    [playerView backButton:^(UIButton *button) {
+        NSLog(@"返回按钮被点击");
+    }];
+    //播放完成回调
+    [playerView endPlay:^{
+        NSLog(@"播放完成");
+    }];
 
 }
 

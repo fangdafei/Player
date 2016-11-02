@@ -20,7 +20,6 @@
 		5B1FC5031DC852180036C489 /* UIImage+TintColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5001DC852180036C489 /* UIImage+TintColor.m */; };
 		5B1FC5041DC852180036C489 /* UIView+SetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5021DC852180036C489 /* UIView+SetRect.m */; };
 		5B1FC5071DC86A400036C489 /* UIImage+ScaleToSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5061DC86A400036C489 /* UIImage+ScaleToSize.m */; };
-		5BEFBAA01DC895B6008635CB /* BackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEFBA9F1DC895B6008635CB /* BackView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,8 +65,6 @@
 		5B1FC5021DC852180036C489 /* UIView+SetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SetRect.m"; sourceTree = "<group>"; };
 		5B1FC5051DC86A400036C489 /* UIImage+ScaleToSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ScaleToSize.h"; sourceTree = "<group>"; };
 		5B1FC5061DC86A400036C489 /* UIImage+ScaleToSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ScaleToSize.m"; sourceTree = "<group>"; };
-		5BEFBA9E1DC895B6008635CB /* BackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackView.h; sourceTree = "<group>"; };
-		5BEFBA9F1DC895B6008635CB /* BackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,8 +170,6 @@
 			children = (
 				5B1FC4FC1DC8515F0036C489 /* PlayerView.h */,
 				5B1FC4FD1DC8515F0036C489 /* PlayerView.m */,
-				5BEFBA9E1DC895B6008635CB /* BackView.h */,
-				5BEFBA9F1DC895B6008635CB /* BackView.m */,
 				5B1FC4FF1DC852180036C489 /* UIImage+TintColor.h */,
 				5B1FC5001DC852180036C489 /* UIImage+TintColor.m */,
 				5B1FC5051DC86A400036C489 /* UIImage+ScaleToSize.h */,
@@ -321,7 +316,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BEFBAA01DC895B6008635CB /* BackView.m in Sources */,
 				5B1FC4CE1DC850820036C489 /* ViewController.m in Sources */,
 				5B1FC5071DC86A400036C489 /* UIImage+ScaleToSize.m in Sources */,
 				5B1FC5041DC852180036C489 /* UIView+SetRect.m in Sources */,

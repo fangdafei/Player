@@ -12,20 +12,18 @@
 #import "UIView+SetRect.h"
 #import "UIImage+TintColor.h"
 #import "UIImage+ScaleToSize.h"
-#import "BackView.h"
 
 
 #define Padding   15
 
 @interface PlayerView ()
 
-/**原始Farme*/
+/**控件原始Farme*/
 @property (nonatomic,assign) CGRect customFarme;
-/**最外层父类控件*/
+/**父类的父类控件*/
 @property (nonatomic,strong) UIView *topSuperView;
-/**父类控件Farme*/
+/**父类控件原始Farme*/
 @property (nonatomic,assign) CGRect customSuperViewFarme;
-
 
 /**播放器*/
 @property(nonatomic,strong)AVPlayer *player;
@@ -38,7 +36,7 @@
 /**播放时间*/
 @property(nonatomic,strong)UILabel *currentTimeLabel;
 /**表面View*/
-@property(nonatomic,strong)BackView *backView;
+@property(nonatomic,strong)UIView *backView;
 /**转子*/
 @property(nonatomic,strong)UIActivityIndicatorView *activity;
 /**缓冲进度条*/
@@ -53,8 +51,9 @@
 @property (nonatomic,strong) NSTimer *timer;
 
 /**返回按钮回调*/
-@property (nonatomic,copy) void(^BackBlock)(UIButton *backButton);
-
+@property (nonatomic,copy) void(^BackBlock) (UIButton *backButton);
+/**播放完成回调*/
+@property (nonatomic,copy) void(^EndBlock) ();
 
 @end
 
@@ -79,7 +78,7 @@
     [self creatUI];
 
 }
-//创建UI
+#pragma mark - 创建播放器UI
 - (void)creatUI
 {
     if (ScreenWidth < ScreenHeight)
@@ -92,20 +91,18 @@
         self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
         _playerLayer.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
     }
-    
+
     _playerLayer.videoGravity = AVLayerVideoGravityResize;
     [self.layer addSublayer:_playerLayer];
 
-    
-    //播放
-    [self continuePlay];
     //AVPlayer播放完成通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
-    //面上的View
-    self.backView = [[BackView alloc]initWithFrame:CGRectMake(0, _playerLayer.frame.origin.y, _playerLayer.frame.size.width, _playerLayer.frame.size.height)];
+    
+    //最上面的View
+    _backView = [[UIView alloc]initWithFrame:CGRectMake(0, _playerLayer.frame.origin.y, _playerLayer.frame.size.width, _playerLayer.frame.size.height)];
+    _backView.backgroundColor = [UIColor clearColor];
     [self addSubview:_backView];
     
-    _backView.backgroundColor = [UIColor clearColor];
     //顶部View条
     self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 60)];
     _topView.backgroundColor = [UIColor blackColor];
@@ -127,7 +124,7 @@
     [self createMaxButton];
     [self createGesture];
     
-    //菊花
+    //转子
     self.activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     _activity.center = _backView.center;
     [self addSubview:_activity];
@@ -141,7 +138,8 @@
 #pragma mark - 状态栏
 - (BOOL)prefersStatusBarHidden
 {
-    return YES; // 返回NO表示要显示，返回YES将hiden
+    // 返回NO表示要显示，返回YES将hiden
+    return YES;
 }
 #pragma mark - 创建UISlider
 - (void)createSlider
@@ -184,7 +182,7 @@
         
         [_player seekToTime:dragedCMTime completionHandler:^(BOOL finish){
             //继续播放
-            [self continuePlay];
+            [self playVideo];
         }];
         
     }
@@ -250,8 +248,6 @@
     NSTimeInterval result = startSeconds + durationSeconds;// 计算缓冲总进度
     return result;
 }
-
-
 #pragma mark - 创建播放时间
 - (void)createCurrentTimeLabel
 {
@@ -311,14 +307,13 @@
 {
     if (button.selected)
     {
-        [self continuePlay];
+        [self playVideo];
     }
     else
     {
         [self pausePlay];
     }
     button.selected =!button.selected;
-    
 }
 #pragma mark - 返回按钮方法
 - (void)createBackButton
@@ -353,38 +348,39 @@
 #pragma mark - 横屏代码
 - (void)maxAction:(UIButton *)button
 {
-    //横屏采取删除UI重新创建
     if (ScreenWidth < ScreenHeight)
     {
+        //记录父类的父类和父类的位置大小
         _topSuperView = self.superview.superview;
         _customSuperViewFarme = self.superview.frame;
+        //横屏
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-        
+        //改变父类大小
         self.superview.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        //将父类添加到window上面
         UIView *superView = self.superview;
         [self.window addSubview:superView];
-
-        
-        
-        
+        //删除原有控件
         [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
         }];
+        //创建全屏控件
         [self creatUI];
-    } else {
-        
+    }
+    else
+    {
+        //还原父类控件范围大小
         self.superview.frame = _customSuperViewFarme;
-        
+        //旋转屏幕
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-       
+        //将父类添加到原有控件上
         UIView *superView = self.superview;
         [_topSuperView addSubview:superView];
-        
-        
-        
+        //删除
         [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
         }];
+        //创建小屏UI
         [self creatUI];
     }
 }
@@ -409,7 +405,6 @@
     } else if (_backView.alpha == 0)
     {
         [UIView animateWithDuration:0.5 animations:^{
-            
             _backView.alpha = 1;
         }];
         //添加定时消失
@@ -427,7 +422,13 @@
 - (void)moviePlayDidEnd:(id)sender
 {
     [self pausePlay];
+    self.EndBlock();
 }
+- (void)endPlay:(EndBolck) end
+{
+    self.EndBlock = end;
+}
+
 #pragma mark - 返回按钮
 - (void)backButtonAction:(UIButton *)button
 {
@@ -446,7 +447,7 @@
 
 }
 #pragma mark - 继续播放
-- (void)continuePlay
+- (void)playVideo
 {
     [_player play];
     [_startButton setBackgroundImage:[UIImage imageNamed:@"pauseBtn"] forState:UIControlStateNormal];
