@@ -23,6 +23,9 @@
 @property (nonatomic,assign) CGRect customFarme;
 /**最外层父类控件*/
 @property (nonatomic,strong) UIView *topSuperView;
+/**父类控件Farme*/
+@property (nonatomic,assign) CGRect customSuperViewFarme;
+
 
 /**播放器*/
 @property(nonatomic,strong)AVPlayer *player;
@@ -353,25 +356,28 @@
     //横屏采取删除UI重新创建
     if (ScreenWidth < ScreenHeight)
     {
-        
-        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-        
         _topSuperView = self.superview.superview;
+        _customSuperViewFarme = self.superview.frame;
+        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
         
         self.superview.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
         UIView *superView = self.superview;
         [self.window addSubview:superView];
+
+        
+        
         
         [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
         }];
         [self creatUI];
     } else {
+        
+        self.superview.frame = _customSuperViewFarme;
+        
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-        
-        self.superview.frame = _customFarme;
+       
         UIView *superView = self.superview;
-        
         [_topSuperView addSubview:superView];
         
         
