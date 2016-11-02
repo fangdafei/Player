@@ -13,13 +13,16 @@
 #import "UIImage+TintColor.h"
 #import "UIImage+ScaleToSize.h"
 #import "BackView.h"
+
+
 #define Padding   15
 
 @interface PlayerView ()
 
 /**原始Farme*/
 @property (nonatomic,assign) CGRect customFarme;
-
+/**最外层父类控件*/
+@property (nonatomic,strong) UIView *topSuperView;
 
 /**播放器*/
 @property(nonatomic,strong)AVPlayer *player;
@@ -98,6 +101,7 @@
     //面上的View
     self.backView = [[BackView alloc]initWithFrame:CGRectMake(0, _playerLayer.frame.origin.y, _playerLayer.frame.size.width, _playerLayer.frame.size.height)];
     [self addSubview:_backView];
+    
     _backView.backgroundColor = [UIColor clearColor];
     //顶部View条
     self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 60)];
@@ -346,17 +350,32 @@
 #pragma mark - 横屏代码
 - (void)maxAction:(UIButton *)button
 {
-    //横屏采取删除UI重新构建
+    //横屏采取删除UI重新创建
     if (ScreenWidth < ScreenHeight)
     {
         
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+        
+        _topSuperView = self.superview.superview;
+        
+        self.superview.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        UIView *superView = self.superview;
+        [self.window addSubview:superView];
+        
         [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
         }];
         [self creatUI];
     } else {
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
+        
+        self.superview.frame = _customFarme;
+        UIView *superView = self.superview;
+        
+        [_topSuperView addSubview:superView];
+        
+        
+        
         [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
         }];
@@ -406,12 +425,6 @@
 #pragma mark - 返回按钮
 - (void)backButtonAction:(UIButton *)button
 {
-//    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-//    [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        [obj removeFromSuperview];
-//    }];
-//    [self creatUI];
-
     self.BackBlock(button);
 }
 - (void)backButton:(BackButtonBlock) backButton;
@@ -439,17 +452,5 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
 }
 
-//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-//    UIView *view = [super hitTest:point withEvent:event];
-//    if (view == nil) {
-//        for (UIView *subView in self.subviews) {
-//            CGPoint tp = [subView convertPoint:point fromView:self];
-//            if (CGRectContainsPoint(subView.bounds, tp)) {
-//                view = subView;
-//            }
-//        }
-//    }
-//    return view;
-//}
 
 @end
