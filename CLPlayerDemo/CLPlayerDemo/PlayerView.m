@@ -201,7 +201,6 @@
             //继续播放
             [self playVideo];
         }];
-        
     }
 }
 #pragma mark - 创建UIProgressView
@@ -324,7 +323,6 @@
         [_startButton setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
     }
     [_startButton addTarget:self action:@selector(startAction:) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 #pragma mark - 播放暂停按钮方法
 - (void)startAction:(UIButton *)button
@@ -366,7 +364,6 @@
     {
         [button setBackgroundImage:[UIImage imageNamed:@"min"] forState:UIControlStateNormal];
     }
-    
     [button addTarget:self action:@selector(maxAction:) forControlEvents:UIControlEventTouchUpInside];
     [_topView addSubview:button];
 }
@@ -378,7 +375,7 @@
     
     if (ScreenWidth < ScreenHeight)
     {
-        //得到父类
+        //记录播放器父类
         _fatherView = self.superview;
         //横屏
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
@@ -393,7 +390,6 @@
     }
     else
     {
-       
         //旋转屏幕
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
         //还原到原有父类上
