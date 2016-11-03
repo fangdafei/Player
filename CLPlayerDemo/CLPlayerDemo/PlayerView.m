@@ -314,6 +314,7 @@
     _startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _startButton.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
     _startButton.centerY = _bottomView.height/2.0;
+    _startButton.selected = NO;
     [_bottomView addSubview:_startButton];
     _startButton.tintColor = [UIColor whiteColor];
     if (_player.rate == 1.0)
@@ -344,8 +345,9 @@
 - (void)createBackButton
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
+    button.frame = CGRectMake(Padding - 5, 0, ButtonSize, ButtonSize);
     button.centerY = _topView.centerY;
+    button.tintColor = [UIColor whiteColor];
     [button setBackgroundImage:[UIImage imageNamed:@"iconfont-back"] forState:UIControlStateNormal];
     [_topView addSubview:button];
     [button addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];

@@ -20,7 +20,7 @@
 		5B1FC5041DC852180036C489 /* UIView+SetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5021DC852180036C489 /* UIView+SetRect.m */; };
 		5B1FC5071DC86A400036C489 /* UIImage+ScaleToSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FC5061DC86A400036C489 /* UIImage+ScaleToSize.m */; };
 		5B563C2B1DC9C25600290671 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B563C2A1DC9C25600290671 /* Slider.m */; };
-		5B73AAB51DCAE17A007680C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B73AAB41DCAE17A007680C1 /* Assets.xcassets */; };
+		5B73AAB91DCB0881007680C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B73AAB81DCB0881007680C1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,7 +67,7 @@
 		5B1FC5061DC86A400036C489 /* UIImage+ScaleToSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ScaleToSize.m"; sourceTree = "<group>"; };
 		5B563C291DC9C25600290671 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
 		5B563C2A1DC9C25600290671 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
-		5B73AAB41DCAE17A007680C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5B73AAB81DCB0881007680C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,8 +133,8 @@
 		5B1FC4C61DC850820036C489 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B73AAB81DCB0881007680C1 /* Assets.xcassets */,
 				5B1FC4CF1DC850820036C489 /* Main.storyboard */,
-				5B73AAB41DCAE17A007680C1 /* Assets.xcassets */,
 				5B1FC4D41DC850820036C489 /* LaunchScreen.storyboard */,
 				5B1FC4D71DC850820036C489 /* Info.plist */,
 				5B1FC4C71DC850820036C489 /* main.m */,
@@ -295,7 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B1FC4D61DC850820036C489 /* LaunchScreen.storyboard in Resources */,
-				5B73AAB51DCAE17A007680C1 /* Assets.xcassets in Resources */,
+				5B73AAB91DCB0881007680C1 /* Assets.xcassets in Resources */,
 				5B1FC4D11DC850820036C489 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
