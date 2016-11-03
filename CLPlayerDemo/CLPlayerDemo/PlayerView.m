@@ -36,10 +36,8 @@
 
 /**控件原始Farme*/
 @property (nonatomic,assign) CGRect customFarme;
-/**父类的父类控件*/
-@property (nonatomic,strong) UIView *topSuperView;
-/**父类控件原始Farme*/
-@property (nonatomic,assign) CGRect customSuperViewFarme;
+/**父类控件*/
+@property (nonatomic,strong) UIView *fatherView;
 
 /**播放器*/
 @property(nonatomic,strong)AVPlayer *player;
@@ -74,6 +72,7 @@
 @end
 
 @implementation PlayerView
+
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -379,16 +378,12 @@
     
     if (ScreenWidth < ScreenHeight)
     {
-        //记录父类的父类和父类的位置大小
-        _topSuperView = self.superview.superview;
-        _customSuperViewFarme = self.superview.frame;
+        //得到父类
+        _fatherView = self.superview;
         //横屏
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-        //改变父类大小
-        self.superview.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-        //将父类添加到window上面
-        UIView *superView = self.superview;
-        [self.window addSubview:superView];
+        //添加到Window上
+        [self.window addSubview:self];
         //删除原有控件
         [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
@@ -401,11 +396,8 @@
        
         //旋转屏幕
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-        //还原父类控件范围大小
-        self.superview.frame = _customSuperViewFarme;
-        //将父类添加到原有控件上
-        UIView *superView = self.superview;
-        [_topSuperView addSubview:superView];
+        //还原到原有父类上
+        [_fatherView addSubview:self];
         //删除
         [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
