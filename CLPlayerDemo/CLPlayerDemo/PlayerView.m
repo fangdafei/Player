@@ -18,15 +18,19 @@
 //消失时间
 #define DisappearTime  20
 //顶部底部控件高度
-#define ViewHeight     40
+#define ViewHeight     50
 //按钮大小
-#define ButtonSize     30
+#define ButtonSize     35
+//滑块大小
+#define SliderSize     20
 //进度条颜色
-#define ProgressColor     [UIColor colorWithRed:0.91373f green:0.94118f blue:0.96078f alpha:1.00000f]
+#define ProgressColor     [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:0.40000f]
 //缓冲颜色
-#define ProgressTintColor [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:0.60000f]
+#define ProgressTintColor [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:1.00000f]
 //播放完成颜色
 #define PlayFinishColor   [UIColor redColor]
+//滑块颜色
+#define SliderColor       [UIColor redColor]
 
 @interface PlayerView ()
 
@@ -161,15 +165,16 @@
 - (void)createSlider
 {
     self.slider = [[Slider alloc]init];
-    _slider.frame = _progress.frame;
+    _slider.frame = CGRectMake(_progress.x, 0, _progress.width, ViewHeight);
+    _slider.centerY = _bottomView.height/2.0;
+    
     [_bottomView addSubview:_slider];
     //自定义滑块大小
-    
     UIImage *image = [UIImage imageNamed:@"iconfont-yuan"];
     //改变滑块大小
-    UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake( 2 * Padding, 2 * Padding)];
+    UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake( SliderSize, SliderSize)];
     //改变滑块颜色
-    UIImage *newImage = [tempImage imageWithTintColor:PlayFinishColor];
+    UIImage *newImage = [tempImage imageWithTintColor:SliderColor];
     [_slider setThumbImage:newImage forState:UIControlStateNormal];
     //添加监听
     [_slider addTarget:self action:@selector(progressSlider:) forControlEvents:UIControlEventValueChanged];
