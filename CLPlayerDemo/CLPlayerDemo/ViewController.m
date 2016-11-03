@@ -18,18 +18,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(99, 99, 300, 300)];
-//    [self.view addSubview:view1];
+    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 99, ScreenWidth, 300)];
+    [self.view addSubview:view1];
     
-//    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 99, ScreenWidth, 300)];
-    
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
+    [view1 addSubview:view2];
     
     PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
-    [self.view addSubview:playerView];
+    [view2 addSubview:playerView];
     //视频地址
     playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/0215/56c1809735217_wpd.mp4"];
     //播放
-    [playerView playVideo];
+//    [playerView playVideo];
     //返回按钮点击事件回调
     [playerView backButton:^(UIButton *button) {
         NSLog(@"返回按钮被点击");

@@ -20,7 +20,7 @@
 //顶部底部控件高度
 #define ViewHeight     40
 //按钮大小
-#define ButtonSize     20
+#define ButtonSize     30
 //进度条颜色
 #define ProgressColor     [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:0.40000f]
 //缓冲颜色
@@ -161,14 +161,14 @@
 #pragma mark - 创建UISlider
 - (void)createSlider
 {
-    self.slider = [[Slider alloc]initWithFrame:CGRectMake(_progress.left - Padding/2.0, _progress.top, _progress.width + Padding, Padding)];
-    _slider.centerY = _bottomView.height/2.0;
+    self.slider = [[Slider alloc]init];
+    _slider.frame = _progress.frame;
     [_bottomView addSubview:_slider];
     //自定义滑块大小
     
     UIImage *image = [UIImage imageNamed:@"iconfont-yuan"];
     //改变滑块大小
-    UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake(2 * Padding, 2 * Padding)];
+    UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake( 2 * Padding, 2 * Padding)];
     //改变滑块颜色
     UIImage *newImage = [tempImage imageWithTintColor:PlayFinishColor];
     [_slider setThumbImage:newImage forState:UIControlStateNormal];
@@ -308,7 +308,6 @@
 {
     _startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _startButton.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
-    _startButton.clipsToBounds = YES;
     _startButton.centerY = _bottomView.height/2.0;
     [_bottomView addSubview:_startButton];
     _startButton.tintColor = [UIColor whiteColor];
@@ -393,10 +392,11 @@
     }
     else
     {
-        //还原父类控件范围大小
-        self.superview.frame = _customSuperViewFarme;
+       
         //旋转屏幕
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
+        //还原父类控件范围大小
+        self.superview.frame = _customSuperViewFarme;
         //将父类添加到原有控件上
         UIView *superView = self.superview;
         [_topSuperView addSubview:superView];
@@ -469,7 +469,7 @@
     [_startButton setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
 
 }
-#pragma mark - 继续播放
+#pragma mark - 播放
 - (void)playVideo
 {
     [_player play];
