@@ -314,15 +314,16 @@
     _startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _startButton.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
     _startButton.centerY = _bottomView.height/2.0;
-    _startButton.selected = NO;
     [_bottomView addSubview:_startButton];
     _startButton.tintColor = [UIColor whiteColor];
     if (_player.rate == 1.0)
     {
+        _startButton.selected = YES;
         [_startButton setBackgroundImage:[UIImage imageNamed:@"pauseBtn"] forState:UIControlStateNormal];
     }
     else
     {
+        _startButton.selected = NO;
         [_startButton setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
     }
     [_startButton addTarget:self action:@selector(startAction:) forControlEvents:UIControlEventTouchUpInside];
