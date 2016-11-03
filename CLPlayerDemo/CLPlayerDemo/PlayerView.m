@@ -149,7 +149,6 @@
     [self addSubview:_activity];
     [_activity startAnimating];
     
-
     //计时器，循环执行
     [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(timeStack) userInfo:nil repeats:YES];
     //工具条定时消失
@@ -167,7 +166,6 @@
     self.slider = [[Slider alloc]init];
     _slider.frame = CGRectMake(_progress.x, 0, _progress.width, ViewHeight);
     _slider.centerY = _bottomView.height/2.0;
-    
     [_bottomView addSubview:_slider];
     //自定义滑块大小
     UIImage *image = [UIImage imageNamed:@"iconfont-yuan"];
@@ -182,7 +180,6 @@
     _slider.minimumTrackTintColor = PlayFinishColor;
     //右边颜色
     _slider.maximumTrackTintColor = [UIColor clearColor];
-    
 }
 
 #pragma mark - 拖动进度条
@@ -196,13 +193,11 @@
         
         //计算出拖动的当前秒数
         CGFloat total = (CGFloat)_playerItem.duration.value / _playerItem.duration.timescale;
-        
         NSInteger dragedSeconds = floorf(total * slider.value);
         
         //转换成CMTime才能给player来控制播放进度
         CMTime dragedCMTime = CMTimeMake(dragedSeconds, 1);
        
-        
         [_player seekToTime:dragedCMTime completionHandler:^(BOOL finish){
             //继续播放
             [self playVideo];
@@ -263,7 +258,8 @@
     }
 }
 //计算缓冲进度
-- (NSTimeInterval)availableDuration {
+- (NSTimeInterval)availableDuration
+{
     NSArray *loadedTimeRanges = [[_player currentItem] loadedTimeRanges];
     CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue];// 获取缓冲区域
     float startSeconds = CMTimeGetSeconds(timeRange.start);
@@ -316,6 +312,8 @@
     _startButton.centerY = _bottomView.height/2.0;
     [_bottomView addSubview:_startButton];
     _startButton.tintColor = [UIColor whiteColor];
+    
+    //根据播放状态来设置播放按钮
     if (_player.rate == 1.0)
     {
         _startButton.selected = YES;

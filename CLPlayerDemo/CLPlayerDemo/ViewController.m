@@ -18,14 +18,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 99, ScreenWidth, 300)];
-    [self.view addSubview:view1];
-    
-    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
-    [view1 addSubview:view2];
+//    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 99, ScreenWidth, 300)];
+//    [self.view addSubview:view1];
+//    
+//    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
+//    [view1 addSubview:view2];
     
     PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
-    [view2 addSubview:playerView];
+    [self.view addSubview:playerView];
     //视频地址
     playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/0215/56c1809735217_wpd.mp4"];
     //播放
