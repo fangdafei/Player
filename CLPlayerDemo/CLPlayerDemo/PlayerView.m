@@ -16,7 +16,7 @@
 //间隙
 #define Padding        10
 //消失时间
-#define DisappearTime  20
+#define DisappearTime  4
 //顶部底部控件高度
 #define ViewHeight     50
 //按钮大小
