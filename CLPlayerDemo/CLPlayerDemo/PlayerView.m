@@ -22,11 +22,11 @@
 //按钮大小
 #define ButtonSize     30
 //进度条颜色
-#define ProgressColor     [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:0.40000f]
+#define ProgressColor     [UIColor colorWithRed:0.91373f green:0.94118f blue:0.96078f alpha:1.00000f]
 //缓冲颜色
 #define ProgressTintColor [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:0.60000f]
 //播放完成颜色
-#define PlayFinishColor   [UIColor colorWithRed:1.00000f green:1.00000f blue:1.00000f alpha:1.00000f]
+#define PlayFinishColor   [UIColor redColor]
 
 @interface PlayerView ()
 
@@ -88,7 +88,6 @@
     self.player = [AVPlayer playerWithPlayerItem:_playerItem];
     _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     [self creatUI];
-
 }
 #pragma mark - 创建播放器UI
 - (void)creatUI
@@ -187,6 +186,8 @@
     //拖动改变视频播放进度
     if (_player.status == AVPlayerStatusReadyToPlay)
     {
+        //暂停
+        [self pausePlay];
         
         //计算出拖动的当前秒数
         CGFloat total = (CGFloat)_playerItem.duration.value / _playerItem.duration.timescale;
@@ -195,8 +196,7 @@
         
         //转换成CMTime才能给player来控制播放进度
         CMTime dragedCMTime = CMTimeMake(dragedSeconds, 1);
-        //暂停
-        [self pausePlay];
+       
         
         [_player seekToTime:dragedCMTime completionHandler:^(BOOL finish){
             //继续播放
@@ -325,13 +325,13 @@
 #pragma mark - 播放暂停按钮方法
 - (void)startAction:(UIButton *)button
 {
-    if (button.selected)
+    if (button.selected == YES)
     {
-        [self playVideo];
+        [self pausePlay];
     }
     else
     {
-        [self pausePlay];
+        [self playVideo];
     }
     button.selected =!button.selected;
 }

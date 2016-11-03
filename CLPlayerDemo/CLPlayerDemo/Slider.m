@@ -14,7 +14,7 @@
 - (CGRect)trackRectForBounds:(CGRect)bounds
 {
     [super trackRectForBounds:bounds];
-    return CGRectMake(-2, (self.frame.size.height - 2)/2.0, CGRectGetWidth(bounds) + 4, 2);
+    return CGRectMake(-2, (self.frame.size.height - 2.6)/2.0, CGRectGetWidth(bounds) + 4, 2.6);
 }
 
 @end
