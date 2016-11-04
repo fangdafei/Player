@@ -22,7 +22,7 @@
     [super viewDidLoad];
 
     
-    PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
+    PlayerView *playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 90, ScreenWidth, 300)];
     [self.view addSubview:playerView];
     //视频地址
     playerView.url = [NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/0215/56c1809735217_wpd.mp4"];

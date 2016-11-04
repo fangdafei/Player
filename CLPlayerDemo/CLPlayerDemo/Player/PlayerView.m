@@ -18,9 +18,9 @@
 //消失时间
 #define DisappearTime  4
 //顶部底部控件高度
-#define ViewHeight     50
+#define ViewHeight     40
 //按钮大小
-#define ButtonSize     35
+#define ButtonSize     30
 //滑块大小
 #define SliderSize     20
 //进度条颜色
@@ -167,7 +167,7 @@
     _slider.centerY = _bottomView.height/2.0;
     [_bottomView addSubview:_slider];
     //自定义滑块大小
-    UIImage *image = [UIImage imageNamed:@"iconfont-yuan"];
+    UIImage *image = [UIImage imageNamed:@"round"];
     //改变滑块大小
     UIImage *tempImage = [image OriginImage:image scaleToSize:CGSizeMake( SliderSize, SliderSize)];
     //改变滑块颜色
@@ -309,18 +309,16 @@
     _startButton.frame = CGRectMake(Padding, 0, ButtonSize, ButtonSize);
     _startButton.centerY = _bottomView.height/2.0;
     [_bottomView addSubview:_startButton];
-    _startButton.tintColor = [UIColor whiteColor];
-    
     //根据播放状态来设置播放按钮
     if (_player.rate == 1.0)
     {
         _startButton.selected = YES;
-        [_startButton setBackgroundImage:[UIImage imageNamed:@"pauseBtn"] forState:UIControlStateNormal];
+        [_startButton setBackgroundImage:[[UIImage imageNamed:@"pauseBtn"] imageWithTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     }
     else
     {
         _startButton.selected = NO;
-        [_startButton setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
+        [_startButton setBackgroundImage:[[UIImage imageNamed:@"playBtn"] imageWithTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     }
     [_startButton addTarget:self action:@selector(startAction:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -335,16 +333,14 @@
     {
         [self playVideo];
     }
-    button.selected =!button.selected;
 }
 #pragma mark - 返回按钮方法
 - (void)createBackButton
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(Padding - 5, 0, ButtonSize, ButtonSize);
+    button.frame = CGRectMake(0 , 0, ButtonSize, ButtonSize);
     button.centerY = _topView.centerY;
-    button.tintColor = [UIColor whiteColor];
-    [button setBackgroundImage:[UIImage imageNamed:@"iconfont-back"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[[UIImage imageNamed:@"backBtn"] imageWithTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     [_topView addSubview:button];
     [button addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -355,14 +351,13 @@
     button.frame = CGRectMake(0, 0, ButtonSize, ButtonSize);
     button.right = _topView.right - Padding;
     button.centerY = _topView.centerY;
-    button.tintColor = [UIColor whiteColor];
     if (ScreenWidth < ScreenHeight)
     {
-        [button setBackgroundImage:[UIImage imageNamed:@"max"] forState:UIControlStateNormal];
+        [button setBackgroundImage:[[UIImage imageNamed:@"maxBtn"] imageWithTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     }
     else
     {
-        [button setBackgroundImage:[UIImage imageNamed:@"min"] forState:UIControlStateNormal];
+        [button setBackgroundImage:[[UIImage imageNamed:@"minBtn"] imageWithTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     }
     [button addTarget:self action:@selector(maxAction:) forControlEvents:UIControlEventTouchUpInside];
     [_topView addSubview:button];
@@ -460,14 +455,16 @@
 - (void)pausePlay
 {
     [_player pause];
-    [_startButton setBackgroundImage:[UIImage imageNamed:@"playBtn"] forState:UIControlStateNormal];
+    _startButton.selected = NO;
+    [_startButton setBackgroundImage:[[UIImage imageNamed:@"playBtn"] imageWithTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
 
 }
 #pragma mark - 播放
 - (void)playVideo
 {
     [_player play];
-    [_startButton setBackgroundImage:[UIImage imageNamed:@"pauseBtn"] forState:UIControlStateNormal];
+    _startButton.selected = YES;
+    [_startButton setBackgroundImage:[[UIImage imageNamed:@"pauseBtn"] imageWithTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
 }
 
 #pragma mark - dealloc
